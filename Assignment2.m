@@ -11,10 +11,10 @@ Environment('Environment.ply')
 %% Dobot
 disp('Loading Dobot...');
 % %D&H Parameters
-L1 = Link('alpha',-pi/2,'a',0,'d',0.08,'offset',0);
-L2 = Link('alpha',0,'a',0.138,'d',0,'offset',deg2rad(-30));
-L3 = Link('alpha',0,'a',0.16,'d',0,'offset',deg2rad(65));
-L4 = Link('alpha',0,'a',0.08,'d',0,'offset',deg2rad(55));
+L1 = Link('alpha',-pi/2,'a',0,'d',0.08,'offset',0,'qlim',[-2.3562,2.3562]);
+L2 = Link('alpha',0,'a',0.138,'d',0,'offset',deg2rad(-45),'qlim',[-0.0873,1.3963]);
+L3 = Link('alpha',0,'a',0.16,'d',0,'offset',deg2rad(90),'qlim',[-0.1745,1.6581]);
+L4 = Link('alpha',0,'a',0.08,'d',0,'offset',deg2rad(45));
 
 %Creating the Dobot
 Dobot = SerialLink([L1 L2 L3 L4],'name','Dobot');
@@ -48,4 +48,6 @@ Dobot.delay = 0;
 
 
 disp('Done');
-Dobot.teach
+
+%% Movement
+
