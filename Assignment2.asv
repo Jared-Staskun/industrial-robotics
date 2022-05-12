@@ -21,7 +21,7 @@ L4 = Link('alpha',0,'a',0.08,'d',0,'offset',deg2rad(45));
 Dobot = SerialLink([L1 L2 L3 L4],'name','Dobot');
 
 %initial pose and base
-defaultQ = [0 0 0 0];
+q = [0 0 0 0];
 Dobot.base = transl(0,0,0.055);
 
 %Figure setup
@@ -50,7 +50,7 @@ disp('Done');
 
 newQ = [1.0367, -0.0873, -0.1195, 0.1885];
 
-Dobot.plot3d(move_joint_position(defaultQ,newQ));
+Dobot.plot3d(move_joint_position(q,newQ);
 
 %% Functions
 
@@ -58,10 +58,10 @@ function [qMatrix] = move_joint_position(Q,newQ)
 % Move to new joint position
     steps = 2;
     
-    while ~isempty(find(1 < abs(diff(rad2deg(jtraj(Q,newQ,steps)))),1))
+    while ~isempty(find(1 < abs(diff(rad2deg(jtraj(Q,newQ,steps)))),1)
         steps = steps + 1;
     end
 
-    qMatrix = jtraj(Q,newQ,steps);
+    qMatrix = jtraj(q,newQ,steps);
 end
 
