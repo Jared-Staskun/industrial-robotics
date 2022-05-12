@@ -6,7 +6,32 @@ Environment('Environment.ply')
 
 %% GUI
 
+UI = GUI()
 
+pause(10)
+
+%Lamp Control
+lampOff = [1,0,0];
+lampOn = [0,1,0];
+
+blueCap_lamp = UI.Lamp_blueCap;
+blueInv_lamp = UI.Lamp_blueInv;
+redCap_lamp = UI.Lamp_redCap;
+redInv_lamp = UI.Lamp_redInv;
+greenCap_lamp = UI.Lamp_greenCap;
+greenInv_lamp = UI.Lamp_greenInv;
+
+redCap_lamp.Color = lampOff;
+pause(1)
+redInv_lamp.Color = lampOff;
+pause(1)
+greenCap_lamp.Color = lampOff;
+pause(1)
+greenInv_lamp.Color = lampOff;
+pause(1)
+blueCap_lamp.Color = lampOff;
+pause(1)
+blueInv_lamp.Color = lampOff;
 
 %% Dobot
 disp('Loading Dobot...');
