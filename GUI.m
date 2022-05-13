@@ -2,36 +2,131 @@ classdef GUI < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure                  matlab.ui.Figure
-        Lamp_ARM                  matlab.ui.control.Lamp
-        Lamp_power                matlab.ui.control.Lamp
-        StatusLampLabel           matlab.ui.control.Label
-        Lamp_redInv               matlab.ui.control.Lamp
-        Lamp_greenInv             matlab.ui.control.Lamp
-        Lamp_blueInv              matlab.ui.control.Lamp
-        Lamp_blueCap              matlab.ui.control.Lamp
-        Lamp_greenCap             matlab.ui.control.Lamp
-        Lamp_redCap               matlab.ui.control.Lamp
-        ARMSwitch                 matlab.ui.control.ToggleSwitch
-        ARMSwitchLabel            matlab.ui.control.Label
-        PowerButton               matlab.ui.control.StateButton
-        EmergencyStopButton       matlab.ui.control.StateButton
-        BlueCapacityGauge         matlab.ui.control.LinearGauge
-        BlueCapacityGaugeLabel    matlab.ui.control.Label
-        GreenCapacityGauge        matlab.ui.control.LinearGauge
-        GreenCapacityGaugeLabel   matlab.ui.control.Label
-        RedCapacityGauge          matlab.ui.control.LinearGauge
-        RedCapacityGaugeLabel     matlab.ui.control.Label
-        BlueButton                matlab.ui.control.Button
-        BlueInventoryGauge        matlab.ui.control.LinearGauge
-        BlueInventoryGaugeLabel   matlab.ui.control.Label
-        GreenButton               matlab.ui.control.Button
-        GreenInventoryGauge       matlab.ui.control.LinearGauge
-        GreenInventoryGaugeLabel  matlab.ui.control.Label
-        RedInventoryGauge         matlab.ui.control.LinearGauge
-        RedInventoryGaugeLabel    matlab.ui.control.Label
+        UIFigure                        matlab.ui.Figure
+        Lamp_power                      matlab.ui.control.Lamp
+        StatusLampLabel                 matlab.ui.control.Label
+        Lamp_redInv                     matlab.ui.control.Lamp
+        Lamp_greenInv                   matlab.ui.control.Lamp
+        Lamp_blueInv                    matlab.ui.control.Lamp
+        Lamp_blueCap                    matlab.ui.control.Lamp
+        Lamp_greenCap                   matlab.ui.control.Lamp
+        Lamp_redCap                     matlab.ui.control.Lamp
+        PowerButton                     matlab.ui.control.StateButton
+        EmergencyStopButton             matlab.ui.control.StateButton
+        BlueInkLevelGauge               matlab.ui.control.LinearGauge
+        BlueInkLevelGaugeLabel          matlab.ui.control.Label
+        GreenInkLevelGauge              matlab.ui.control.LinearGauge
+        GreenInkLevelGaugeLabel         matlab.ui.control.Label
+        RedInkLevelGauge                matlab.ui.control.LinearGauge
+        RedInkLevelGaugeLabel           matlab.ui.control.Label
+        BlueButton                      matlab.ui.control.Button
+        BlueCartridgesinInventoryGauge  matlab.ui.control.LinearGauge
+        BlueCartridgesinInventoryGaugeLabel  matlab.ui.control.Label
+        GreenButton                     matlab.ui.control.Button
+        GreenCartridgesinInventoryGauge  matlab.ui.control.LinearGauge
+        GreenCartridgesinInventoryGaugeLabel  matlab.ui.control.Label
+        RedCartridgesinInventoryGauge   matlab.ui.control.LinearGauge
+        RedCartridgesinInventoryGaugeLabel  matlab.ui.control.Label
         SelectInkCartridgetoChangeLabel  matlab.ui.control.Label
-        RedButton                 matlab.ui.control.Button
+        RedButton                       matlab.ui.control.Button
+    end
+
+    % Callbacks that handle component events
+    methods (Access = private)
+
+        % Value changed function: PowerButton
+        function powerOn(app, event)
+            value = app.PowerButton.Value;
+            
+            green = [0,1,0];
+            red = [1,0,0];
+            grey = [0.5,0.5,0.5];
+            
+            red_cap = 55;
+            green_cap = 78;
+            blue_cap = 34;
+            color_matrix = [red_cap,green_cap,blue_cap];
+                
+            if value == 1
+                app.Lamp_power.Color = green;
+
+                app.RedCartridgesinInventoryGauge.Value = 0;
+                app.GreenCartridgesinInventoryGauge.Value = 1;
+                app.BlueCartridgesinInventoryGauge.Value = 0;
+                
+
+                
+                %For demo purposes only - no practical use
+                for i = 0:1:max(color_matrix)
+                    if app.RedInkLevelGauge.Value < red_cap
+                        app.RedInkLevelGauge.Value = app.RedInkLevelGauge.Value + 1;
+                    end
+                
+                    if app.GreenInkLevelGauge.Value < green_cap
+                            app.GreenInkLevelGauge.Value = app.GreenInkLevelGauge.Value + 1;
+                    end
+                
+                    if app.BlueInkLevelGauge.Value < blue_cap
+                        app.BlueInkLevelGauge.Value = app.BlueInkLevelGauge.Value + 1;
+                    end
+                    pause(0.03)
+                end
+                
+                if app.RedCartridgesinInventoryGauge.Value > 0
+                    app.Lamp_redInv.Color = green;
+                else
+                    app.Lamp_redInv.Color = red;
+                end
+                
+                if app.RedInkLevelGauge.Value > 0
+                    app.Lamp_redCap.Color = green;
+                else
+                    app.Lamp_redCap.Color = red;
+                end
+                
+                if app.GreenCartridgesinInventoryGauge.Value > 0
+                    app.Lamp_greenInv.Color = green;
+                else
+                    app.Lamp_greenInv.Color = red;
+                end
+                
+                if app.GreenCartridgesinInventoryGauge.Value > 0
+                    app.Lamp_greenCap.Color = green;
+                else
+                    app.Lamp_greenCap.Color = red;
+                end
+                
+                if app.BlueCartridgesinInventoryGauge.Value > 0
+                    app.Lamp_blueInv.Color = green;
+                else
+                    app.Lamp_blueInv.Color = red;
+                end
+                
+                if app.BlueInkLevelGauge.Value > 0
+                    app.Lamp_blueCap.Color = green;
+                else
+                    app.Lamp_blueCap.Color = red;
+                end
+                
+            else
+                app.Lamp_power.Color = grey;
+                
+                app.RedCartridgesinInventoryGauge.Value = 0;
+                app.GreenCartridgesinInventoryGauge.Value = 0;
+                app.BlueCartridgesinInventoryGauge.Value = 0;
+                app.RedInkLevelGauge.Value = 0;
+                app.GreenInkLevelGauge.Value = 0;
+                app.BlueInkLevelGauge.Value = 0;
+                
+                app.Lamp_redInv.Color = grey;
+                app.Lamp_redCap.Color = grey;
+                app.Lamp_greenInv.Color = grey;
+                app.Lamp_greenCap.Color = grey;
+                app.Lamp_blueInv.Color = grey;
+                app.Lamp_blueCap.Color = grey;
+            end
+            
+        end
     end
 
     % Component initialization
@@ -58,31 +153,31 @@ classdef GUI < matlab.apps.AppBase
             app.SelectInkCartridgetoChangeLabel.Position = [53 419 118 28];
             app.SelectInkCartridgetoChangeLabel.Text = {'Select Ink Cartridge'; 'to Change'};
 
-            % Create RedInventoryGaugeLabel
-            app.RedInventoryGaugeLabel = uilabel(app.UIFigure);
-            app.RedInventoryGaugeLabel.HorizontalAlignment = 'center';
-            app.RedInventoryGaugeLabel.FontWeight = 'bold';
-            app.RedInventoryGaugeLabel.Position = [313 386 86 22];
-            app.RedInventoryGaugeLabel.Text = 'Red Inventory';
+            % Create RedCartridgesinInventoryGaugeLabel
+            app.RedCartridgesinInventoryGaugeLabel = uilabel(app.UIFigure);
+            app.RedCartridgesinInventoryGaugeLabel.HorizontalAlignment = 'center';
+            app.RedCartridgesinInventoryGaugeLabel.FontWeight = 'bold';
+            app.RedCartridgesinInventoryGaugeLabel.Position = [310 380 92 28];
+            app.RedCartridgesinInventoryGaugeLabel.Text = {'Red Cartridges'; 'in Inventory'};
 
-            % Create RedInventoryGauge
-            app.RedInventoryGauge = uigauge(app.UIFigure, 'linear');
-            app.RedInventoryGauge.Limits = [0 10];
-            app.RedInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
-            app.RedInventoryGauge.Position = [296 407 119 40];
+            % Create RedCartridgesinInventoryGauge
+            app.RedCartridgesinInventoryGauge = uigauge(app.UIFigure, 'linear');
+            app.RedCartridgesinInventoryGauge.Limits = [0 10];
+            app.RedCartridgesinInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
+            app.RedCartridgesinInventoryGauge.Position = [296 407 119 40];
 
-            % Create GreenInventoryGaugeLabel
-            app.GreenInventoryGaugeLabel = uilabel(app.UIFigure);
-            app.GreenInventoryGaugeLabel.HorizontalAlignment = 'center';
-            app.GreenInventoryGaugeLabel.FontWeight = 'bold';
-            app.GreenInventoryGaugeLabel.Position = [308 305 98 22];
-            app.GreenInventoryGaugeLabel.Text = 'Green Inventory';
+            % Create GreenCartridgesinInventoryGaugeLabel
+            app.GreenCartridgesinInventoryGaugeLabel = uilabel(app.UIFigure);
+            app.GreenCartridgesinInventoryGaugeLabel.HorizontalAlignment = 'center';
+            app.GreenCartridgesinInventoryGaugeLabel.FontWeight = 'bold';
+            app.GreenCartridgesinInventoryGaugeLabel.Position = [305 299 104 28];
+            app.GreenCartridgesinInventoryGaugeLabel.Text = {'Green Cartridges'; 'in Inventory'};
 
-            % Create GreenInventoryGauge
-            app.GreenInventoryGauge = uigauge(app.UIFigure, 'linear');
-            app.GreenInventoryGauge.Limits = [0 10];
-            app.GreenInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
-            app.GreenInventoryGauge.Position = [296 326 119 40];
+            % Create GreenCartridgesinInventoryGauge
+            app.GreenCartridgesinInventoryGauge = uigauge(app.UIFigure, 'linear');
+            app.GreenCartridgesinInventoryGauge.Limits = [0 10];
+            app.GreenCartridgesinInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
+            app.GreenCartridgesinInventoryGauge.Position = [296 326 119 40];
 
             % Create GreenButton
             app.GreenButton = uibutton(app.UIFigure, 'push');
@@ -90,18 +185,18 @@ classdef GUI < matlab.apps.AppBase
             app.GreenButton.Position = [62 316 100 23];
             app.GreenButton.Text = 'Green';
 
-            % Create BlueInventoryGaugeLabel
-            app.BlueInventoryGaugeLabel = uilabel(app.UIFigure);
-            app.BlueInventoryGaugeLabel.HorizontalAlignment = 'center';
-            app.BlueInventoryGaugeLabel.FontWeight = 'bold';
-            app.BlueInventoryGaugeLabel.Position = [312 224 89 22];
-            app.BlueInventoryGaugeLabel.Text = 'Blue Inventory';
+            % Create BlueCartridgesinInventoryGaugeLabel
+            app.BlueCartridgesinInventoryGaugeLabel = uilabel(app.UIFigure);
+            app.BlueCartridgesinInventoryGaugeLabel.HorizontalAlignment = 'center';
+            app.BlueCartridgesinInventoryGaugeLabel.FontWeight = 'bold';
+            app.BlueCartridgesinInventoryGaugeLabel.Position = [309 218 95 28];
+            app.BlueCartridgesinInventoryGaugeLabel.Text = {'Blue Cartridges'; 'in Inventory'};
 
-            % Create BlueInventoryGauge
-            app.BlueInventoryGauge = uigauge(app.UIFigure, 'linear');
-            app.BlueInventoryGauge.Limits = [0 10];
-            app.BlueInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
-            app.BlueInventoryGauge.Position = [296 245 119 40];
+            % Create BlueCartridgesinInventoryGauge
+            app.BlueCartridgesinInventoryGauge = uigauge(app.UIFigure, 'linear');
+            app.BlueCartridgesinInventoryGauge.Limits = [0 10];
+            app.BlueCartridgesinInventoryGauge.MinorTicks = [0 1 2 3 4 5 6 7 8 9 10];
+            app.BlueCartridgesinInventoryGauge.Position = [296 245 119 40];
 
             % Create BlueButton
             app.BlueButton = uibutton(app.UIFigure, 'push');
@@ -109,38 +204,38 @@ classdef GUI < matlab.apps.AppBase
             app.BlueButton.Position = [62 244 100 23];
             app.BlueButton.Text = 'Blue';
 
-            % Create RedCapacityGaugeLabel
-            app.RedCapacityGaugeLabel = uilabel(app.UIFigure);
-            app.RedCapacityGaugeLabel.HorizontalAlignment = 'center';
-            app.RedCapacityGaugeLabel.FontWeight = 'bold';
-            app.RedCapacityGaugeLabel.Position = [507 386 82 22];
-            app.RedCapacityGaugeLabel.Text = 'Red Capacity';
+            % Create RedInkLevelGaugeLabel
+            app.RedInkLevelGaugeLabel = uilabel(app.UIFigure);
+            app.RedInkLevelGaugeLabel.HorizontalAlignment = 'center';
+            app.RedInkLevelGaugeLabel.FontWeight = 'bold';
+            app.RedInkLevelGaugeLabel.Position = [497 386 105 22];
+            app.RedInkLevelGaugeLabel.Text = 'Red Ink Level (%)';
 
-            % Create RedCapacityGauge
-            app.RedCapacityGauge = uigauge(app.UIFigure, 'linear');
-            app.RedCapacityGauge.Position = [488 407 119 40];
+            % Create RedInkLevelGauge
+            app.RedInkLevelGauge = uigauge(app.UIFigure, 'linear');
+            app.RedInkLevelGauge.Position = [488 407 119 40];
 
-            % Create GreenCapacityGaugeLabel
-            app.GreenCapacityGaugeLabel = uilabel(app.UIFigure);
-            app.GreenCapacityGaugeLabel.HorizontalAlignment = 'center';
-            app.GreenCapacityGaugeLabel.FontWeight = 'bold';
-            app.GreenCapacityGaugeLabel.Position = [505 305 94 22];
-            app.GreenCapacityGaugeLabel.Text = 'Green Capacity';
+            % Create GreenInkLevelGaugeLabel
+            app.GreenInkLevelGaugeLabel = uilabel(app.UIFigure);
+            app.GreenInkLevelGaugeLabel.HorizontalAlignment = 'center';
+            app.GreenInkLevelGaugeLabel.FontWeight = 'bold';
+            app.GreenInkLevelGaugeLabel.Position = [494 305 117 22];
+            app.GreenInkLevelGaugeLabel.Text = 'Green Ink Level (%)';
 
-            % Create GreenCapacityGauge
-            app.GreenCapacityGauge = uigauge(app.UIFigure, 'linear');
-            app.GreenCapacityGauge.Position = [488 326 119 40];
+            % Create GreenInkLevelGauge
+            app.GreenInkLevelGauge = uigauge(app.UIFigure, 'linear');
+            app.GreenInkLevelGauge.Position = [488 326 119 40];
 
-            % Create BlueCapacityGaugeLabel
-            app.BlueCapacityGaugeLabel = uilabel(app.UIFigure);
-            app.BlueCapacityGaugeLabel.HorizontalAlignment = 'center';
-            app.BlueCapacityGaugeLabel.FontWeight = 'bold';
-            app.BlueCapacityGaugeLabel.Position = [506 224 85 22];
-            app.BlueCapacityGaugeLabel.Text = 'Blue Capacity';
+            % Create BlueInkLevelGaugeLabel
+            app.BlueInkLevelGaugeLabel = uilabel(app.UIFigure);
+            app.BlueInkLevelGaugeLabel.HorizontalAlignment = 'center';
+            app.BlueInkLevelGaugeLabel.FontWeight = 'bold';
+            app.BlueInkLevelGaugeLabel.Position = [495 224 108 22];
+            app.BlueInkLevelGaugeLabel.Text = 'Blue Ink Level (%)';
 
-            % Create BlueCapacityGauge
-            app.BlueCapacityGauge = uigauge(app.UIFigure, 'linear');
-            app.BlueCapacityGauge.Position = [488 245 119 40];
+            % Create BlueInkLevelGauge
+            app.BlueInkLevelGauge = uigauge(app.UIFigure, 'linear');
+            app.BlueInkLevelGauge.Position = [488 245 119 40];
 
             % Create EmergencyStopButton
             app.EmergencyStopButton = uibutton(app.UIFigure, 'state');
@@ -152,22 +247,12 @@ classdef GUI < matlab.apps.AppBase
 
             % Create PowerButton
             app.PowerButton = uibutton(app.UIFigure, 'state');
+            app.PowerButton.ValueChangedFcn = createCallbackFcn(app, @powerOn, true);
             app.PowerButton.Text = 'Power';
             app.PowerButton.BackgroundColor = [0.3922 0.8314 0.0745];
             app.PowerButton.FontWeight = 'bold';
             app.PowerButton.FontColor = [1 1 1];
             app.PowerButton.Position = [505 61 86 65];
-
-            % Create ARMSwitchLabel
-            app.ARMSwitchLabel = uilabel(app.UIFigure);
-            app.ARMSwitchLabel.HorizontalAlignment = 'center';
-            app.ARMSwitchLabel.FontWeight = 'bold';
-            app.ARMSwitchLabel.Position = [336 21 40 22];
-            app.ARMSwitchLabel.Text = 'ARM';
-
-            % Create ARMSwitch
-            app.ARMSwitch = uiswitch(app.UIFigure, 'toggle');
-            app.ARMSwitch.Position = [342 79 29 65];
 
             % Create Lamp_redCap
             app.Lamp_redCap = uilamp(app.UIFigure);
@@ -210,11 +295,6 @@ classdef GUI < matlab.apps.AppBase
             app.Lamp_power = uilamp(app.UIFigure);
             app.Lamp_power.Position = [563 131 20 20];
             app.Lamp_power.Color = [0.502 0.502 0.502];
-
-            % Create Lamp_ARM
-            app.Lamp_ARM = uilamp(app.UIFigure);
-            app.Lamp_ARM.Position = [313 22 20 20];
-            app.Lamp_ARM.Color = [0.502 0.502 0.502];
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';
