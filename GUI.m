@@ -2,33 +2,36 @@ classdef GUI < matlab.apps.AppBase
 
     % Properties that correspond to app components
     properties (Access = public)
-        UIFigure                       matlab.ui.Figure
-        Lamp_redInv                    matlab.ui.control.Lamp
-        Lamp_greenInv                  matlab.ui.control.Lamp
-        Lamp_blueInv                   matlab.ui.control.Lamp
-        Lamp_blueCap                   matlab.ui.control.Lamp
-        Lamp_greenCap                  matlab.ui.control.Lamp
-        Lamp_redCap                    matlab.ui.control.Lamp
-        ARMSwitch                      matlab.ui.control.ToggleSwitch
-        ARMSwitchLabel                 matlab.ui.control.Label
-        PowerButton                    matlab.ui.control.StateButton
-        EmergencyStopButton            matlab.ui.control.StateButton
-        BlueCapacityGauge              matlab.ui.control.LinearGauge
-        BlueCapacityGaugeLabel         matlab.ui.control.Label
-        GreenCapacityGauge             matlab.ui.control.LinearGauge
-        GreenCapacityGaugeLabel        matlab.ui.control.Label
-        RedCapacityGauge               matlab.ui.control.LinearGauge
-        RedCapacityGaugeLabel          matlab.ui.control.Label
-        BlueButton                     matlab.ui.control.Button
-        BlueInventoryGauge             matlab.ui.control.LinearGauge
-        BlueInventoryGaugeLabel        matlab.ui.control.Label
-        GreenButton                    matlab.ui.control.Button
-        GreenInventoryGauge            matlab.ui.control.LinearGauge
-        GreenInventoryGaugeLabel       matlab.ui.control.Label
-        RedInventoryGauge              matlab.ui.control.LinearGauge
-        RedInventoryGaugeLabel         matlab.ui.control.Label
-        SelectInkCartridgeChangeLabel  matlab.ui.control.Label
-        RedButton                      matlab.ui.control.Button
+        UIFigure                  matlab.ui.Figure
+        Lamp_ARM                  matlab.ui.control.Lamp
+        Lamp_power                matlab.ui.control.Lamp
+        StatusLampLabel           matlab.ui.control.Label
+        Lamp_redInv               matlab.ui.control.Lamp
+        Lamp_greenInv             matlab.ui.control.Lamp
+        Lamp_blueInv              matlab.ui.control.Lamp
+        Lamp_blueCap              matlab.ui.control.Lamp
+        Lamp_greenCap             matlab.ui.control.Lamp
+        Lamp_redCap               matlab.ui.control.Lamp
+        ARMSwitch                 matlab.ui.control.ToggleSwitch
+        ARMSwitchLabel            matlab.ui.control.Label
+        PowerButton               matlab.ui.control.StateButton
+        EmergencyStopButton       matlab.ui.control.StateButton
+        BlueCapacityGauge         matlab.ui.control.LinearGauge
+        BlueCapacityGaugeLabel    matlab.ui.control.Label
+        GreenCapacityGauge        matlab.ui.control.LinearGauge
+        GreenCapacityGaugeLabel   matlab.ui.control.Label
+        RedCapacityGauge          matlab.ui.control.LinearGauge
+        RedCapacityGaugeLabel     matlab.ui.control.Label
+        BlueButton                matlab.ui.control.Button
+        BlueInventoryGauge        matlab.ui.control.LinearGauge
+        BlueInventoryGaugeLabel   matlab.ui.control.Label
+        GreenButton               matlab.ui.control.Button
+        GreenInventoryGauge       matlab.ui.control.LinearGauge
+        GreenInventoryGaugeLabel  matlab.ui.control.Label
+        RedInventoryGauge         matlab.ui.control.LinearGauge
+        RedInventoryGaugeLabel    matlab.ui.control.Label
+        SelectInkCartridgetoChangeLabel  matlab.ui.control.Label
+        RedButton                 matlab.ui.control.Button
     end
 
     % Component initialization
@@ -48,12 +51,12 @@ classdef GUI < matlab.apps.AppBase
             app.RedButton.Position = [62 388 100 23];
             app.RedButton.Text = 'Red';
 
-            % Create SelectInkCartridgeChangeLabel
-            app.SelectInkCartridgeChangeLabel = uilabel(app.UIFigure);
-            app.SelectInkCartridgeChangeLabel.HorizontalAlignment = 'center';
-            app.SelectInkCartridgeChangeLabel.FontWeight = 'bold';
-            app.SelectInkCartridgeChangeLabel.Position = [53 419 118 28];
-            app.SelectInkCartridgeChangeLabel.Text = {'Select Ink Cartridge'; 'Change'};
+            % Create SelectInkCartridgetoChangeLabel
+            app.SelectInkCartridgetoChangeLabel = uilabel(app.UIFigure);
+            app.SelectInkCartridgetoChangeLabel.HorizontalAlignment = 'center';
+            app.SelectInkCartridgetoChangeLabel.FontWeight = 'bold';
+            app.SelectInkCartridgetoChangeLabel.Position = [53 419 118 28];
+            app.SelectInkCartridgetoChangeLabel.Text = {'Select Ink Cartridge'; 'to Change'};
 
             % Create RedInventoryGaugeLabel
             app.RedInventoryGaugeLabel = uilabel(app.UIFigure);
@@ -169,26 +172,49 @@ classdef GUI < matlab.apps.AppBase
             % Create Lamp_redCap
             app.Lamp_redCap = uilamp(app.UIFigure);
             app.Lamp_redCap.Position = [452 407 20 20];
+            app.Lamp_redCap.Color = [0.502 0.502 0.502];
 
             % Create Lamp_greenCap
             app.Lamp_greenCap = uilamp(app.UIFigure);
             app.Lamp_greenCap.Position = [452 326 20 20];
+            app.Lamp_greenCap.Color = [0.502 0.502 0.502];
 
             % Create Lamp_blueCap
             app.Lamp_blueCap = uilamp(app.UIFigure);
             app.Lamp_blueCap.Position = [452 245 20 20];
+            app.Lamp_blueCap.Color = [0.502 0.502 0.502];
 
             % Create Lamp_blueInv
             app.Lamp_blueInv = uilamp(app.UIFigure);
             app.Lamp_blueInv.Position = [260 245 20 20];
+            app.Lamp_blueInv.Color = [0.502 0.502 0.502];
 
             % Create Lamp_greenInv
             app.Lamp_greenInv = uilamp(app.UIFigure);
             app.Lamp_greenInv.Position = [260 326 20 20];
+            app.Lamp_greenInv.Color = [0.502 0.502 0.502];
 
             % Create Lamp_redInv
             app.Lamp_redInv = uilamp(app.UIFigure);
             app.Lamp_redInv.Position = [260 407 20 20];
+            app.Lamp_redInv.Color = [0.502 0.502 0.502];
+
+            % Create StatusLampLabel
+            app.StatusLampLabel = uilabel(app.UIFigure);
+            app.StatusLampLabel.HorizontalAlignment = 'right';
+            app.StatusLampLabel.FontWeight = 'bold';
+            app.StatusLampLabel.Position = [502 131 46 22];
+            app.StatusLampLabel.Text = 'Status:';
+
+            % Create Lamp_power
+            app.Lamp_power = uilamp(app.UIFigure);
+            app.Lamp_power.Position = [563 131 20 20];
+            app.Lamp_power.Color = [0.502 0.502 0.502];
+
+            % Create Lamp_ARM
+            app.Lamp_ARM = uilamp(app.UIFigure);
+            app.Lamp_ARM.Position = [313 22 20 20];
+            app.Lamp_ARM.Color = [0.502 0.502 0.502];
 
             % Show the figure after all components are created
             app.UIFigure.Visible = 'on';

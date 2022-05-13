@@ -1,19 +1,16 @@
-%% Environment
-
-clf
-
-Environment('Environment.ply')
-
 %% GUI
 
-UI = GUI()
+UI = GUI();
 
-pause(10)
+powerButton = UI.PowerButton;
 
 %Lamp Control
-lampOff = [1,0,0];
-lampOn = [0,1,0];
+lampOff = [0,0,0];
+lampRed = [1,0,0];
+lampGreen = [0,1,0];
 
+power_lamp = UI.Lamp_power;
+ARM_lamp = UI.Lamp_ARM;
 blueCap_lamp = UI.Lamp_blueCap;
 blueInv_lamp = UI.Lamp_blueInv;
 redCap_lamp = UI.Lamp_redCap;
@@ -21,17 +18,47 @@ redInv_lamp = UI.Lamp_redInv;
 greenCap_lamp = UI.Lamp_greenCap;
 greenInv_lamp = UI.Lamp_greenInv;
 
-redCap_lamp.Color = lampOff;
-pause(1)
-redInv_lamp.Color = lampOff;
-pause(1)
-greenCap_lamp.Color = lampOff;
-pause(1)
-greenInv_lamp.Color = lampOff;
-pause(1)
-blueCap_lamp.Color = lampOff;
-pause(1)
-blueInv_lamp.Color = lampOff;
+%Meters
+redCap_meter = UI.RedCapacityGauge;
+redInv_meter = UI.RedInventoryGauge;
+greenCap_meter = UI.GreenCapacityGauge;
+greenInv_meter = UI.GreenInventoryGauge;
+blueCap_meter = UI.BlueCapacityGauge;
+blueInv_meter = UI.BlueInventoryGauge;
+
+pause(5)
+
+power_lamp.Color = lampGreen;
+redCap_lamp.Color = lampGreen;
+redInv_lamp.Color = lampRed;
+greenCap_lamp.Color = lampGreen;
+greenInv_lamp.Color = lampGreen;
+blueCap_lamp.Color = lampGreen;
+blueInv_lamp.Color = lampRed;
+
+red_cap = 55;
+green_cap = 78;
+blue_cap = 34;
+
+redInv_meter.Value = 0;
+greenInv_meter.Value = 1;
+blueInv_meter.Value = 0;
+
+%For demo purposes only - no practical use
+for i = 0:1:78
+    if redCap_meter.Value < red_cap
+        redCap_meter.Value = redCap_meter.Value + 1;
+    end
+
+    if greenCap_meter.Value < green_cap
+            greenCap_meter.Value = greenCap_meter.Value + 1;
+    end
+
+    if blueCap_meter.Value < blue_cap
+        blueCap_meter.Value = blueCap_meter.Value + 1;
+    end
+    pause(0.03)
+end
 
 %% Dobot
 disp('Loading Dobot...');
@@ -70,6 +97,12 @@ Dobot.delay = 0;
 
 
 disp('Done');
+
+%% Environment
+
+clf
+
+Environment('Environment.ply')
 
 %% Movement
 
