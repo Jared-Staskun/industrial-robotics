@@ -1,5 +1,4 @@
 classdef GUI < matlab.apps.AppBase
-
     % Properties that correspond to app components
     properties (Access = public)
         UIFigure                        matlab.ui.Figure
@@ -29,105 +28,17 @@ classdef GUI < matlab.apps.AppBase
         RedCartridgesinInventoryGaugeLabel  matlab.ui.control.Label
         SelectInkCartridgetoChangeLabel  matlab.ui.control.Label
         RedButton                       matlab.ui.control.Button
+
     end
 
     % Callbacks that handle component events
-    methods (Access = private)
-
-        % Value changed function: PowerButton
-        function powerOn(app, event)
-            value = app.PowerButton.Value;
-            
-            green = [0,1,0];
-            red = [1,0,0];
-            grey = [0.5,0.5,0.5];
-            
-            red_cap = 55;
-            green_cap = 78;
-            blue_cap = 34;
-            color_matrix = [red_cap,green_cap,blue_cap];
-                
-            if value == 1
-                app.Lamp_power.Color = green;
-
-                app.RedCartridgesinInventoryGauge.Value = 0;
-                app.GreenCartridgesinInventoryGauge.Value = 1;
-                app.BlueCartridgesinInventoryGauge.Value = 0;
-                
-
-                
-                %For demo purposes only - no practical use
-                for i = 0:1:max(color_matrix)
-                    if app.RedInkLevelGauge.Value < red_cap
-                        app.RedInkLevelGauge.Value = app.RedInkLevelGauge.Value + 1;
-                    end
-                
-                    if app.GreenInkLevelGauge.Value < green_cap
-                            app.GreenInkLevelGauge.Value = app.GreenInkLevelGauge.Value + 1;
-                    end
-                
-                    if app.BlueInkLevelGauge.Value < blue_cap
-                        app.BlueInkLevelGauge.Value = app.BlueInkLevelGauge.Value + 1;
-                    end
-                    pause(0.03)
-                end
-                
-                if app.RedCartridgesinInventoryGauge.Value > 0
-                    app.Lamp_redInv.Color = green;
-                else
-                    app.Lamp_redInv.Color = red;
-                end
-                
-                if app.RedInkLevelGauge.Value > 0
-                    app.Lamp_redCap.Color = green;
-                else
-                    app.Lamp_redCap.Color = red;
-                end
-                
-                if app.GreenCartridgesinInventoryGauge.Value > 0
-                    app.Lamp_greenInv.Color = green;
-                else
-                    app.Lamp_greenInv.Color = red;
-                end
-                
-                if app.GreenCartridgesinInventoryGauge.Value > 0
-                    app.Lamp_greenCap.Color = green;
-                else
-                    app.Lamp_greenCap.Color = red;
-                end
-                
-                if app.BlueCartridgesinInventoryGauge.Value > 0
-                    app.Lamp_blueInv.Color = green;
-                else
-                    app.Lamp_blueInv.Color = red;
-                end
-                
-                if app.BlueInkLevelGauge.Value > 0
-                    app.Lamp_blueCap.Color = green;
-                else
-                    app.Lamp_blueCap.Color = red;
-                end
-                
-            else
-                app.Lamp_power.Color = grey;
-                
-                app.RedCartridgesinInventoryGauge.Value = 0;
-                app.GreenCartridgesinInventoryGauge.Value = 0;
-                app.BlueCartridgesinInventoryGauge.Value = 0;
-                app.RedInkLevelGauge.Value = 0;
-                app.GreenInkLevelGauge.Value = 0;
-                app.BlueInkLevelGauge.Value = 0;
-                
-                app.Lamp_redInv.Color = grey;
-                app.Lamp_redCap.Color = grey;
-                app.Lamp_greenInv.Color = grey;
-                app.Lamp_greenCap.Color = grey;
-                app.Lamp_blueInv.Color = grey;
-                app.Lamp_blueCap.Color = grey;
-            end
-            
-        end
-    end
+%     methods (Access = private)
+% 
+%         % Button pushed function: BlueButton
+%         function BlueButtonPushed(app, event)
+%             
+%         end
+%     end
 
     % Component initialization
     methods (Access = private)
@@ -200,6 +111,7 @@ classdef GUI < matlab.apps.AppBase
 
             % Create BlueButton
             app.BlueButton = uibutton(app.UIFigure, 'push');
+            app.BlueButton.ButtonPushedFcn = createCallbackFcn(app, @BlueButtonPushed, true);
             app.BlueButton.BackgroundColor = [1 1 1];
             app.BlueButton.Position = [62 244 100 23];
             app.BlueButton.Text = 'Blue';
@@ -247,7 +159,6 @@ classdef GUI < matlab.apps.AppBase
 
             % Create PowerButton
             app.PowerButton = uibutton(app.UIFigure, 'state');
-            app.PowerButton.ValueChangedFcn = createCallbackFcn(app, @powerOn, true);
             app.PowerButton.Text = 'Power';
             app.PowerButton.BackgroundColor = [0.3922 0.8314 0.0745];
             app.PowerButton.FontWeight = 'bold';
