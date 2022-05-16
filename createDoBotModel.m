@@ -13,12 +13,6 @@ function DoBot = createDoBotModel(workspace, scale)
     %initial pose and base
     q = [0 0 0 0];
     DoBot.base = transl(0,0,0.055);
-    
-    %Figure setup
-    scale = 0.4;
-
-    %Toggle environment to increase performance
-    workspace = [-0.5 0.5 -0.5 0.5 0 0.5];
 
     %Loading custom 3D model
     for i = 0:DoBot.n
