@@ -12,7 +12,10 @@ function DoBot = createDoBotModel(workspace, scale)
 
     %initial pose and base
     q = [0 0 0 0];
-    DoBot.base = transl(0,0,0.055);
+    DoBot.base = transl(0,0,0.64);
+    
+    workspace = [-1 1 -1 1 0 1];
+    scale = 0.4;
 
     %Loading custom 3D model
     for i = 0:DoBot.n
@@ -28,7 +31,9 @@ function DoBot = createDoBotModel(workspace, scale)
     DoBot.delay = 0;
 
     hold on
-    PlaceObject('printer.ply',[0,0,0]);
+    PlaceObject('printer.ply',[0,0.3,0.58]);
+    PlaceObject('table.ply',[0,0,0]);
+    view([-134, 26])
     
 end
 
