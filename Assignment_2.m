@@ -68,6 +68,7 @@ function varargout = Assignment_2_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+handles.DoBot = createDoBotModel([-0.5 0.5 -0.5 0.5 0 0.5],0.4);
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;

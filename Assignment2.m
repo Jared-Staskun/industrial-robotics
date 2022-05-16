@@ -1,4 +1,4 @@
-%% GUI
+% GUI
 
 
 %% Dobot
@@ -32,21 +32,17 @@ end
 
 %Plotting Dobot
 Dobot.plotopt3d = {'wrist', 'xyz', 'arrow'};
-Dobot.plot3d(q,'workspace',workspace,'scale',scale)
+Dobot.plot3d(defaultQ,'workspace',workspace,'scale',scale)
 camlight
 Dobot.delay = 0;
 
 
 disp('Done');
 
-%% Environment
 
-clf
-
-Environment('Environment.ply')
 
 %% Movement
-
+pause(3)
 newQ = [1.0367, -0.0873, -0.1195, 0.1885];
 
 Dobot.plot3d(move_joint_position(defaultQ,newQ));
