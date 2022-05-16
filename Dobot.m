@@ -11,6 +11,12 @@ function Dobot
 
     scale = 0.4;
 
+    for i = 0:Dobot.n
+    [faces,vertices,ply_data{i+1}] = plyread(['link',num2str(i),'.ply']);
+    Dobot.faces{i+1} = faces;
+    Dobot.points{i+1} = vertices;
+    end
+
     workspace = [-0.5 0.5 -0.5 0.5 0 0.5];
 
     Dobot.plotopt3d = {'wrist', 'xyz', 'arrow'};
