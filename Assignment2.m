@@ -1,6 +1,5 @@
 %% GUI
 
-GUI();
 
 %% Dobot
 disp('Loading Dobot...');
