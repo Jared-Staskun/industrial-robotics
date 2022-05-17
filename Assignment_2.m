@@ -53,6 +53,13 @@ function Assignment_2_OpeningFcn(hObject, eventdata, handles, varargin)
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to Assignment_2 (see VARARGIN)
 
+% Creat DoBot model and environment
+handles.DoBot = createDoBotModel([-1 1 -1 1 0 1],0.4);
+
+% E-Stop set up
+handles.eStop = eStopButton; % Create an object of the eStopButton class
+eStopListener = addlistener(handles.estop,'eStop',@eStopFunction);
+
 % Choose default command line output for Assignment_2
 handles.output = hObject;
 
@@ -69,7 +76,6 @@ function varargout = Assignment_2_OutputFcn(hObject, eventdata, handles)
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-handles.DoBot = createDoBotModel([-1 1 -1 1 0 1],0.4);
 
 % Get default command line output from handles structure
 varargout{1} = handles.output;
@@ -87,6 +93,9 @@ function Stop_PushButton_Callback(hObject, eventdata, handles)
 % hObject    handle to Stop_PushButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+eStopEvent(handles.eStop);
+    
+end
 
 
 % --- Executes on button press in Red_PushButton.
