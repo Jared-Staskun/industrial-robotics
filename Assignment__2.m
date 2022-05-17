@@ -22,7 +22,7 @@ function varargout = Assignment__2(varargin)
 
 % Edit the above text to modify the response to help Assignment__2
 
-% Last Modified by GUIDE v2.5 17-May-2022 18:54:43
+% Last Modified by GUIDE v2.5 17-May-2022 20:25:09
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -187,7 +187,17 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
-    set(handles.text3, 'string', "All We had To Do Was Follow The Train Jared")
+    while(v == 1)
+    set(handles.Red_PushButton, 'Enable', 'off')
+    set(handles.Blue_PushButton, 'Enable', 'off')
+    set(handles.Green_PushButton, 'Enable', 'off')
+        if get(hObject, 'Value') == 1
+        v = 0;
+        end
+    end
+    set(handles.Red_PushButton, 'Enable', 'on')
+    set(handles.Blue_PushButton, 'Enable', 'on')
+    set(handles.Green_PushButton, 'Enable', 'on')
 end
 
 
@@ -220,3 +230,58 @@ function edit1_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+
+% --- Executes on button press in Red_PushButton.
+function Red_PushButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Red_PushButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+if get(hObject, 'Value') == 1
+    set(handles.text3, 'string', "You Have Selected Red")
+    newQ = [1.0367, -0.0873, -0.1195, 0.1885];
+    Q = handles.Dobot.getpos
+    handles.Dobot.plot3d(MoveJoint(Q, newQ));
+
+end
+
+
+
+
+
+% --- Executes on button press in Blue_PushButton.
+function Blue_PushButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Blue_PushButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(hObject, 'Value') == 1
+    set(handles.text3, 'string', "You Have Selected Blue")
+
+end
+
+
+
+% --- Executes on button press in Green_PushButton.
+function Green_PushButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Green_PushButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+if get(hObject, 'Value') == 1
+    set(handles.text3, 'string', "You Have Selected Green")
+end
+
+
+% --- Executes on button press in Start_PushButtonWrong.
+function Start_PushButtonWrong_Callback(hObject, eventdata, handles)
+% hObject    handle to Start_PushButtonWrong (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in Start_PushButton.
+function Start_PushButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Start_PushButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
