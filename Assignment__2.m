@@ -22,7 +22,7 @@ function varargout = Assignment__2(varargin)
 
 % Edit the above text to modify the response to help Assignment__2
 
-% Last Modified by GUIDE v2.5 17-May-2022 20:25:09
+% Last Modified by GUIDE v2.5 17-May-2022 21:01:31
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -241,8 +241,8 @@ function Red_PushButton_Callback(hObject, eventdata, handles)
 
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "You Have Selected Red")
-    newQ = [1.0367, -0.0873, -0.1195, 0.1885];
-    Q = handles.Dobot.getpos
+    newQ = [-0.75398, 0.29505, -0.34207, 0];
+    Q = handles.Dobot.getpos;
     handles.Dobot.plot3d(MoveJoint(Q, newQ));
 
 end
@@ -258,7 +258,9 @@ function Blue_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "You Have Selected Blue")
-
+    newQ = [-1.5551, -0.024966, 0.40609, -0.2];
+    Q = handles.Dobot.getpos;
+    handles.Dobot.plot3d(MoveJoint(Q, newQ));
 end
 
 
@@ -270,6 +272,9 @@ function Green_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "You Have Selected Green")
+    newQ = [-1.0839, -0.090786, 0.24892, -0.18];
+    Q = handles.Dobot.getpos;
+    handles.Dobot.plot3d(MoveJoint(Q, newQ));
 end
 
 
@@ -285,3 +290,15 @@ function Start_PushButton_Callback(hObject, eventdata, handles)
 % hObject    handle to Start_PushButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in get_pose_button.
+function get_pose_button_Callback(hObject, eventdata, handles)
+% hObject    handle to get_pose_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+if get(hObject, 'Value') == 1
+    coordinates = handles.Dobot.getpos;
+    set(handles.text3, 'string', num2str(coordinates))
+end
