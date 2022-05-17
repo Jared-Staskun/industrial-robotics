@@ -237,13 +237,11 @@ function Red_PushButton_Callback(hObject, eventdata, handles)
 % hObject    handle to Red_PushButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-
-
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "You Have Selected Red")
     newQ = [1.0367, -0.0873, -0.1195, 0.1885];
     Q = handles.Dobot.getpos
-    handles.Dobot.plot3d(MoveJoint(Q, newQ));
+    
 
 end
 

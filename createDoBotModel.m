@@ -33,6 +33,9 @@ function DoBot = createDoBotModel(workspace, scale)
     DoBotModel.delay = 0;
 
     hold on
+    
+    RedInkLocation = []
+
     PlaceObject('printer.ply',[0.1,0.3,0.58]);
     PlaceObject('red_ink.ply',[0.2,-0.2,0.58]);
     PlaceObject('green_ink.ply',[0.1,-0.2,0.58]);
