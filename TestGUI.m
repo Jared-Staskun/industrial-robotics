@@ -1,36 +1,36 @@
 
-function varargout = Assignment_2(varargin)
-% ASSIGNMENT_2 MATLAB code for Assignment_2.fig
-%      ASSIGNMENT_2, by itself, creates a new ASSIGNMENT_2 or raises the existing
+function varargout = TestGUI(varargin)
+% TESTGUI MATLAB code for TestGUI.fig
+%      TESTGUI, by itself, creates a new TESTGUI or raises the existing
 %      singleton*.
 %
-%      H = ASSIGNMENT_2 returns the handle to a new ASSIGNMENT_2 or the handle to
+%      H = TESTGUI returns the handle to a new TESTGUI or the handle to
 %      the existing singleton*.
 %
-%      ASSIGNMENT_2('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in ASSIGNMENT_2.M with the given input arguments.
+%      TESTGUI('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in TESTGUI.M with the given input arguments.
 %
-%      ASSIGNMENT_2('Property','Value',...) creates a new ASSIGNMENT_2 or raises the
+%      TESTGUI('Property','Value',...) creates a new TESTGUI or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before Assignment_2_OpeningFcn gets called.  An
+%      applied to the GUI before TestGUI_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to Assignment_2_OpeningFcn via varargin.
+%      stop.  All inputs are passed to TestGUI_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help Assignment_2
+% Edit the above text to modify the response to help TestGUI
 
-% Last Modified by GUIDE v2.5 17-May-2022 15:47:24
+% Last Modified by GUIDE v2.5 17-May-2022 15:52:53
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @Assignment_2_OpeningFcn, ...
-                   'gui_OutputFcn',  @Assignment_2_OutputFcn, ...
+                   'gui_OpeningFcn', @TestGUI_OpeningFcn, ...
+                   'gui_OutputFcn',  @TestGUI_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -45,26 +45,26 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before Assignment_2 is made visible.
-function Assignment_2_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before TestGUI is made visible.
+function TestGUI_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to Assignment_2 (see VARARGIN)
+% varargin   command line arguments to TestGUI (see VARARGIN)
 handles.DoBot = createDoBotModel([-1 1 -1 1 0 1],0.4);
-% Choose default command line output for Assignment_2
+% Choose default command line output for TestGUI
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes Assignment_2 wait for user response (see UIRESUME)
+% UIWAIT makes TestGUI wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = Assignment_2_OutputFcn(hObject, eventdata, handles) 
+function varargout = TestGUI_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -210,6 +210,11 @@ function Joint4_Slider_Callback(hObject, eventdata, handles)
 
 % Hints: get(hObject,'Value') returns position of slider
 %        get(hObject,'Min') and get(hObject,'Max') to determine range of slider
+J4_Slide = get(hObject, 'Value');
+J4_Postion = handles.DoBot.getpos;
+J4_Postion(1) = J4_Slide;
+handles.DoBot.animate(J4_Postion);
+
 
 
 % --- Executes during object creation, after setting all properties.

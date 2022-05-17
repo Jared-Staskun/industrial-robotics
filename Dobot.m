@@ -4,18 +4,20 @@ function Dobot
     L3 = Link('alpha',0,'a',0.16,'d',0,'offset',deg2rad(90),'qlim',[-0.1745,1.6581]);
     L4 = Link('alpha',0,'a',0.08,'d',0,'offset',deg2rad(45));
 
-    Dobot = SerialLink([L1 L2 L3 L4],'name','Dobot');
+    DobotModel = SerialLink([L1 L2 L3 L4],'name','Dobot');
 
     defaultQ = [0 0 0 0];
-    Dobot.base = transl(0,0,0.055);
+    DobotModel.base = transl(0,0,0.055);
 
     scale = 0.4;
 
-    for i = 0:Dobot.n
+    for i = 0:DobotModel.n
     [faces,vertices,ply_data{i+1}] = plyread(['link',num2str(i),'.ply']);
-    Dobot.faces{i+1} = faces;
-    Dobot.points{i+1} = vertices;
+    DobotModel.faces{i+1} = faces;
+    DobotModel.points{i+1} = vertices;
     end
+
+    dobote = Dobot; hold on
 
     workspace = [-0.5 0.5 -0.5 0.5 0 0.5];
 
