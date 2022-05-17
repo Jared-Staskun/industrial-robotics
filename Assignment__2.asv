@@ -59,8 +59,6 @@ handles.Dobot = createDoBotModel([-1 1 -1 1 0 1],0.4);
 handles.eStop = eStopButton; % Create an object of the eStopButton class
 eStopListener = addlistener(handles.eStop,'eStop',@eStopFunction);
 
-set(handles.text3, 'string', "DoBot Ready.")
-
 % Choose default command line output for Assignment__2
 handles.output = hObject;
 
@@ -198,7 +196,6 @@ if get(hObject, 'Value') == 1
     set(handles.Red_PushButton, 'Enable', 'off');
     set(handles.Blue_PushButton, 'Enable', 'off');
     set(handles.Green_PushButton, 'Enable', 'off');
-    set(handles.get_pose_button, 'Enable', 'off');
     
     % Disable sliders
     set(handles.Joint1_Slider, 'Enable', 'off');
@@ -214,18 +211,14 @@ if get(hObject, 'Value') == 1
         break
     end
     
-    % Enable buttons again
     set(handles.Red_PushButton, 'Enable', 'on');
     set(handles.Blue_PushButton, 'Enable', 'on');
     set(handles.Green_PushButton, 'Enable', 'on');
-    set(handles.get_pose_button, 'Enable', 'on');
-    
-    % Enable sliders again
     set(handles.Joint1_Slider, 'Enable', 'on');
     set(handles.Joint2_Slider, 'Enable', 'on');
     set(handles.Joint3_Slider, 'Enable', 'on');
     set(handles.Joint4_Slider, 'Enable', 'on');
-    set(handles.text3, 'string', "DoBot Ready.")
+    set(handles.text3, 'string', "You Have Selected Red")
 end
 
 
