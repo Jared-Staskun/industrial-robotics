@@ -50,9 +50,7 @@ function DoBot = createDoBotModel(workspace, scale)
     PlaceObject('green_ink.ply',[GreenInkLocation(2,:)]);
     PlaceObject('green_ink.ply',[GreenInkLocation(3,:)]);
 
-    RedInkLocation = [0.1, -0.2, 0.58; 
-                      0.1, -0.3, 0.58;
-                      0.1, -0.4, 0.58;]
+
 
 
     PlaceObject('printer.ply',[0.1,0.3,0.58]);
