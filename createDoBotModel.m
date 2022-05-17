@@ -1,4 +1,4 @@
-function DoBot = createDoBotModel(workspace, scale)
+function [DoBot,inks] = createDoBotModel(workspace, scale)
 %Create the 3D model of the DoBot and the environment
 
     % %D&H Parameters
@@ -13,9 +13,6 @@ function DoBot = createDoBotModel(workspace, scale)
     %initial pose and base
     q = [0 0 0 0];
     DoBotModel.base = transl(0,0,0.64);
-    
-    workspace = [-1 1 -1 1 0 1];
-    scale = 0.4;
 
     %Loading custom 3D model
     for i = 0:DoBotModel.n
@@ -31,14 +28,12 @@ function DoBot = createDoBotModel(workspace, scale)
     DoBotModel.plot3d(q,'workspace',workspace,'scale',scale);
     camlight
     DoBotModel.delay = 0;
-
-    hold on
     
     RedInkLocation = [0.2, -0.2, 0.58; 
                       0.2, -0.3, 0.58;
                       0.2, -0.4, 0.58;];
 
-    PlaceObject('red_ink.ply',[RedInkLocation(1,:)]);
+    red_ink = PlaceObject('red_ink.ply',[RedInkLocation(1,:)]);
     PlaceObject('red_ink.ply',[RedInkLocation(2,:)]);
     PlaceObject('red_ink.ply',[RedInkLocation(3,:)]);
 
@@ -46,26 +41,22 @@ function DoBot = createDoBotModel(workspace, scale)
                       0.1, -0.3, 0.58;
                       0.1, -0.4, 0.58;];
 
-    PlaceObject('green_ink.ply',[GreenInkLocation(1,:)]);
+    green_ink = PlaceObject('green_ink.ply',[GreenInkLocation(1,:)]);
     PlaceObject('green_ink.ply',[GreenInkLocation(2,:)]);
     PlaceObject('green_ink.ply',[GreenInkLocation(3,:)]);
 
-    RedInkLocation = [0.1, -0.2, 0.58; 
-                      0.1, -0.3, 0.58;
-                      0.1, -0.4, 0.58;]
-
+    blue_ink = PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
+    
+    inks = {red_ink, green_ink, blue_ink};
 
     PlaceObject('printer.ply',[0.1,0.3,0.58]);
-    
-    
-    PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
     PlaceObject('e_stop.ply',[0.25,-0.5,0.58]);
     PlaceObject('light_curtain.ply',[0.32,-0.6,0.58]);
     PlaceObject('light_curtain.ply',[0.32,0.6,0.58]);
     PlaceObject('light_curtain.ply',[-0.2,-0.6,0.58]);
     PlaceObject('light_curtain.ply',[-0.2,0.6,0.58]);
     PlaceObject('table.ply',[0,0,0]);
-    view([-134, 26])
+    view([-133, 25])
     
 end
 

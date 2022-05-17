@@ -22,7 +22,7 @@ function varargout = Assignment__2(varargin)
 
 % Edit the above text to modify the response to help Assignment__2
 
-% Last Modified by GUIDE v2.5 17-May-2022 21:58:41
+% Last Modified by GUIDE v2.5 18-May-2022 08:57:43
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -53,7 +53,7 @@ function Assignment__2_OpeningFcn(hObject, eventdata, handles, varargin)
 % varargin   command line arguments to Assignment__2 (see VARARGIN)
 
 % Create DoBot and environment
-handles.Dobot = createDoBotModel([-1 1 -1 1 0 1],0.4);
+[handles.Dobot, handles.inks] = createDoBotModel([-1 1 -1 1 0 1],0.4);
 
 % E-Stop set up
 handles.eStop = eStopButton; % Create an object of the eStopButton class
@@ -199,6 +199,7 @@ if get(hObject, 'Value') == 1
     set(handles.Blue_PushButton, 'Enable', 'off');
     set(handles.Green_PushButton, 'Enable', 'off');
     set(handles.get_pose_button, 'Enable', 'off');
+    set(handles.return_home, 'Enable', 'off');
     
     % Disable sliders
     set(handles.Joint1_Slider, 'Enable', 'off');
@@ -219,6 +220,7 @@ if get(hObject, 'Value') == 1
     set(handles.Blue_PushButton, 'Enable', 'on');
     set(handles.Green_PushButton, 'Enable', 'on');
     set(handles.get_pose_button, 'Enable', 'on');
+    set(handles.return_home, 'Enable', 'on');
     
     % Enable sliders again
     set(handles.Joint1_Slider, 'Enable', 'on');
@@ -269,15 +271,16 @@ function Red_PushButton_Callback(hObject, eventdata, handles)
 
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading red ink cartridge...")
+    set(handles.Red_PushButton, 'Enable', 'off');
     
     newQ = [-0.75398, 0.29505, -0.34207, 0]; % Pose to pick up red block
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
-    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{1}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
-    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    MoveJointWithInk(handles.Dobot,printerHighQ,printerQ,handles.inks{1}); % Insert ink cartridge
     
     set(handles.text3, 'string', "Done!")
 end
@@ -293,15 +296,16 @@ function Blue_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading blue ink cartridge...")
+    set(handles.Blue_PushButton, 'Enable', 'off');
     
     newQ = [-1.5551, -0.024966, 0.40609, -0.2]; % Pose to pick up red block
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
-    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{3}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
-    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    MoveJointWithInk(handles.Dobot,printerHighQ,printerQ,handles.inks{3}); % Insert ink cartridge
     
     set(handles.text3, 'string', "Done!")
 end
@@ -315,15 +319,16 @@ function Green_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading green ink cartridge...")
+    set(handles.Green_PushButton, 'Enable', 'off');
     
     newQ = [-1.0839, -0.090786, 0.24892, -0.18]; % Pose to pick up red block
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
-    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{2}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
-    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    MoveJointWithInk(handles.Dobot,printerHighQ,printerQ,handles.inks{2}); % Insert ink cartridge
     
     set(handles.text3, 'string', "Done!")
 end
@@ -360,3 +365,16 @@ function resume_button_Callback(hObject, eventdata, handles)
 % hObject    handle to resume_button (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
+
+% --- Executes on button press in return_home.
+function return_home_Callback(hObject, eventdata, handles)
+% hObject    handle to return_home (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+Q = handles.Dobot.getpos; % Initial pose
+newQ = [0,0,0,0]; % Home pose
+handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
+
+set(handles.text3, 'string', "DoBot Ready.")
