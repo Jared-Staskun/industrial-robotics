@@ -33,7 +33,10 @@ function DoBot = createDoBotModel(workspace, scale)
     DoBotModel.delay = 0;
 
     hold on
-    PlaceObject('printer.ply',[0,0.3,0.58]);
+    PlaceObject('printer.ply',[0.1,0.3,0.58]);
+    PlaceObject('red_ink.ply',[0.2,-0.2,0.58]);
+    PlaceObject('green_ink.ply',[0.1,-0.2,0.58]);
+    PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
     PlaceObject('table.ply',[0,0,0]);
     view([-134, 26])
     
