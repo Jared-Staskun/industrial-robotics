@@ -8,27 +8,29 @@ function DoBot = createDoBotModel(workspace, scale)
     L4 = Link('alpha',0,'a',0.08,'d',0,'offset',deg2rad(45));
 
     %Creating the Dobot
-    DoBot = SerialLink([L1 L2 L3 L4],'name','Dobot');
+    DoBotModel = SerialLink([L1 L2 L3 L4],'name','Dobot');
 
     %initial pose and base
     q = [0 0 0 0];
-    DoBot.base = transl(0,0,0.64);
+    DoBotModel.base = transl(0,0,0.64);
     
     workspace = [-1 1 -1 1 0 1];
     scale = 0.4;
 
     %Loading custom 3D model
-    for i = 0:DoBot.n
+    for i = 0:DoBotModel.n
         [faces,vertices,ply_data{i+1}] = plyread(['link',num2str(i),'.ply']);
-        DoBot.faces{i+1} = faces;
-        DoBot.points{i+1} = vertices;
+        DoBotModel.faces{i+1} = faces;
+        DoBotModel.points{i+1} = vertices;
     end
     
     %Plotting Dobot
-    DoBot.plotopt3d = {'wrist', 'xyz', 'arrow'};
-    DoBot.plot3d(q,'workspace',workspace,'scale',scale);
+    DoBot = DoBotModel(); 
+    hold on;
+    DoBotModel.plotopt3d = {'wrist', 'xyz', 'arrow'};
+    DoBotModel.plot3d(q,'workspace',workspace,'scale',scale);
     camlight
-    DoBot.delay = 0;
+    DoBotModel.delay = 0;
 
     hold on
     PlaceObject('printer.ply',[0,0.3,0.58]);
