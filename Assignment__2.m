@@ -22,7 +22,7 @@ function varargout = Assignment__2(varargin)
 
 % Edit the above text to modify the response to help Assignment__2
 
-% Last Modified by GUIDE v2.5 17-May-2022 21:01:31
+% Last Modified by GUIDE v2.5 17-May-2022 21:58:41
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -181,30 +181,41 @@ if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColo
 end
 
 
-% --- Executes on button press in pushbutton1.
-function pushbutton1_Callback(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+% --- Executes on button press in E_stop_toggle.
+function E_stop_toggle_Callback(hObject, eventdata, handles)
+% hObject    handle to E_stop_toggle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
-    while(v == 1)
     set(handles.Red_PushButton, 'Enable', 'off')
     set(handles.Blue_PushButton, 'Enable', 'off')
     set(handles.Green_PushButton, 'Enable', 'off')
-        if get(hObject, 'Value') == 1
-        v = 0;
-        end
+    set(handles.Joint1_Slider, 'Enable', 'off')
+    set(handles.Joint2_Slider, 'Enable', 'off')
+    set(handles.Joint3_Slider, 'Enable', 'off')
+    set(handles.Joint4_Slider, 'Enable', 'off')
+    
+    waitfor(hObject, 'Value', 0);
+    while(1)
+        set(handles.resume_button, 'Enable', 'on') % Enable resume button
+        waitfor(handles.resume_button, 'Value', 0) % Wait for resume button to be pushed
+        break
     end
+    
     set(handles.Red_PushButton, 'Enable', 'on')
     set(handles.Blue_PushButton, 'Enable', 'on')
     set(handles.Green_PushButton, 'Enable', 'on')
+    set(handles.Joint1_Slider, 'Enable', 'on')
+    set(handles.Joint2_Slider, 'Enable', 'on')
+    set(handles.Joint3_Slider, 'Enable', 'on')
+    set(handles.Joint4_Slider, 'Enable', 'on')
 end
 
 
 
 % --- Executes during object creation, after setting all properties.
-function pushbutton1_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to pushbutton1 (see GCBO)
+function E_stop_toggle_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to E_stop_toggle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -302,3 +313,10 @@ if get(hObject, 'Value') == 1
     coordinates = handles.Dobot.getpos;
     set(handles.text3, 'string', num2str(coordinates))
 end
+
+
+% --- Executes on button press in resume_button.
+function resume_button_Callback(hObject, eventdata, handles)
+% hObject    handle to resume_button (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
