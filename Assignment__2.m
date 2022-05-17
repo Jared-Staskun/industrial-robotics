@@ -59,6 +59,8 @@ handles.Dobot = createDoBotModel([-1 1 -1 1 0 1],0.4);
 handles.eStop = eStopButton; % Create an object of the eStopButton class
 eStopListener = addlistener(handles.eStop,'eStop',@eStopFunction);
 
+set(handles.text3, 'string', "DoBot Ready.")
+
 % Choose default command line output for Assignment__2
 handles.output = hObject;
 
@@ -187,34 +189,38 @@ function E_stop_toggle_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
-    % Set value of resume button to 1
+    % Set value of resume button to 1 and disable button
     set(handles.resume_button, 'Value', 1);
+    set(handles.resume_button, 'Enable', 'off');
+    set(handles.text3, 'string', "WARNING: E-Stop Active")
     
     % Disable push buttons
-    set(handles.Red_PushButton, 'Enable', 'off')
-    set(handles.Blue_PushButton, 'Enable', 'off')
-    set(handles.Green_PushButton, 'Enable', 'off')
+    set(handles.Red_PushButton, 'Enable', 'off');
+    set(handles.Blue_PushButton, 'Enable', 'off');
+    set(handles.Green_PushButton, 'Enable', 'off');
     
     % Disable sliders
-    set(handles.Joint1_Slider, 'Enable', 'off')
-    set(handles.Joint2_Slider, 'Enable', 'off')
-    set(handles.Joint3_Slider, 'Enable', 'off')
-    set(handles.Joint4_Slider, 'Enable', 'off')
+    set(handles.Joint1_Slider, 'Enable', 'off');
+    set(handles.Joint2_Slider, 'Enable', 'off');
+    set(handles.Joint3_Slider, 'Enable', 'off');
+    set(handles.Joint4_Slider, 'Enable', 'off');
     
     waitfor(hObject, 'Value', 0); % wait till E-Stop is turned off
     while(1)
+        set(handles.text3, 'string', "Press RESUME to continue")
         set(handles.resume_button, 'Enable', 'on') % Enable resume button
         waitfor(handles.resume_button, 'Value', 0) % Wait for resume button to be pushed
         break
     end
     
-    set(handles.Red_PushButton, 'Enable', 'on')
-    set(handles.Blue_PushButton, 'Enable', 'on')
-    set(handles.Green_PushButton, 'Enable', 'on')
-    set(handles.Joint1_Slider, 'Enable', 'on')
-    set(handles.Joint2_Slider, 'Enable', 'on')
-    set(handles.Joint3_Slider, 'Enable', 'on')
-    set(handles.Joint4_Slider, 'Enable', 'on')
+    set(handles.Red_PushButton, 'Enable', 'on');
+    set(handles.Blue_PushButton, 'Enable', 'on');
+    set(handles.Green_PushButton, 'Enable', 'on');
+    set(handles.Joint1_Slider, 'Enable', 'on');
+    set(handles.Joint2_Slider, 'Enable', 'on');
+    set(handles.Joint3_Slider, 'Enable', 'on');
+    set(handles.Joint4_Slider, 'Enable', 'on');
+    set(handles.text3, 'string', "DoBot Ready.")
 end
 
 
@@ -257,11 +263,18 @@ function Red_PushButton_Callback(hObject, eventdata, handles)
 
 
 if get(hObject, 'Value') == 1
-    set(handles.text3, 'string', "You Have Selected Red")
-    newQ = [-0.75398, 0.29505, -0.34207, 0];
-    Q = handles.Dobot.getpos;
-    handles.Dobot.plot3d(MoveJoint(Q, newQ));
-
+    set(handles.text3, 'string', "Loading red ink cartridge...")
+    
+    newQ = [-0.75398, 0.29505, -0.34207, 0]; % Pose to pick up red block
+    Q = handles.Dobot.getpos; % Initial pose
+    handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
+    
+    printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
+    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    printerQ = [1.5551, 0.18157, -0.35131, 0.16];
+    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    
+    set(handles.text3, 'string', "Done!")
 end
 
 
@@ -274,10 +287,18 @@ function Blue_PushButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
-    set(handles.text3, 'string', "You Have Selected Blue")
-    newQ = [-1.5551, -0.024966, 0.40609, -0.2];
-    Q = handles.Dobot.getpos;
-    handles.Dobot.plot3d(MoveJoint(Q, newQ));
+    set(handles.text3, 'string', "Loading blue ink cartridge...")
+    
+    newQ = [-1.5551, -0.024966, 0.40609, -0.2]; % Pose to pick up red block
+    Q = handles.Dobot.getpos; % Initial pose
+    handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
+    
+    printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
+    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    printerQ = [1.5551, 0.18157, -0.35131, 0.16];
+    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    
+    set(handles.text3, 'string', "Done!")
 end
 
 
@@ -288,10 +309,18 @@ function Green_PushButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
-    set(handles.text3, 'string', "You Have Selected Green")
-    newQ = [-1.0839, -0.090786, 0.24892, -0.18];
-    Q = handles.Dobot.getpos;
-    handles.Dobot.plot3d(MoveJoint(Q, newQ));
+    set(handles.text3, 'string', "Loading green ink cartridge...")
+    
+    newQ = [-1.0839, -0.090786, 0.24892, -0.18]; % Pose to pick up red block
+    Q = handles.Dobot.getpos; % Initial pose
+    handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
+    
+    printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
+    handles.Dobot.plot3d(MoveJoint(newQ, printerHighQ)); % Move to above printer
+    printerQ = [1.5551, 0.18157, -0.35131, 0.16];
+    handles.Dobot.plot3d(MoveJoint(printerHighQ,printerQ)); % Insert ink cartridge
+    
+    set(handles.text3, 'string', "Done!")
 end
 
 
