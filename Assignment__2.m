@@ -187,6 +187,8 @@ function E_stop_toggle_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
+    set(handles.resume_button, 'Value', 1);
+    
     set(handles.Red_PushButton, 'Enable', 'off')
     set(handles.Blue_PushButton, 'Enable', 'off')
     set(handles.Green_PushButton, 'Enable', 'off')
