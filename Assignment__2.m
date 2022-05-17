@@ -187,17 +187,21 @@ function E_stop_toggle_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
+    % Set value of resume button to 1
     set(handles.resume_button, 'Value', 1);
     
+    % Disable push buttons
     set(handles.Red_PushButton, 'Enable', 'off')
     set(handles.Blue_PushButton, 'Enable', 'off')
     set(handles.Green_PushButton, 'Enable', 'off')
+    
+    % Disable sliders
     set(handles.Joint1_Slider, 'Enable', 'off')
     set(handles.Joint2_Slider, 'Enable', 'off')
     set(handles.Joint3_Slider, 'Enable', 'off')
     set(handles.Joint4_Slider, 'Enable', 'off')
     
-    waitfor(hObject, 'Value', 0);
+    waitfor(hObject, 'Value', 0); % wait till E-Stop is turned off
     while(1)
         set(handles.resume_button, 'Enable', 'on') % Enable resume button
         waitfor(handles.resume_button, 'Value', 0) % Wait for resume button to be pushed
