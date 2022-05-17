@@ -22,7 +22,7 @@ function varargout = Assignment__2(varargin)
 
 % Edit the above text to modify the response to help Assignment__2
 
-% Last Modified by GUIDE v2.5 17-May-2022 17:20:49
+% Last Modified by GUIDE v2.5 17-May-2022 18:10:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -51,7 +51,14 @@ function Assignment__2_OpeningFcn(hObject, eventdata, handles, varargin)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 % varargin   command line arguments to Assignment__2 (see VARARGIN)
+
+% Create DoBot and environment
 handles.Dobot = createDoBotModel([-1 1 -1 1 0 1],0.4);
+
+% E-Stop set up
+handles.eStop = eStopButton; % Create an object of the eStopButton class
+eStopListener = addlistener(handles.eStop,'eStop',@eStopFunction);
+
 % Choose default command line output for Assignment__2
 handles.output = hObject;
 
@@ -78,10 +85,8 @@ function Joint1_Slider_Callback(hObject, eventdata, handles)
 % hObject    handle to Joint1_Slider (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-S1_Pos = get(hObject, 'Value') 
-S1_Pos_Max = get(hObject, 'Max') 
-S1_Pos_Min = get(hObject, 'Min') 
-J_Pos = handles.Dobot.getpos
+S1_Pos = get(hObject, 'Value');
+J_Pos = handles.Dobot.getpos;
 J_Pos(1) = S1_Pos;
 handles.Dobot.animate(J_Pos);
 
@@ -106,10 +111,8 @@ function Joint2_Slider_Callback(hObject, eventdata, handles)
 % hObject    handle to Joint2_Slider (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-S2_Pos = get(hObject, 'Value')
-S2_Pos_Max = get(hObject, 'Max')
-S2_Pos_Min = get(hObject, 'Min') 
-J_Pos = handles.Dobot.getpos
+S2_Pos = get(hObject, 'Value');
+J_Pos = handles.Dobot.getpos;
 J_Pos(2) = S2_Pos;
 handles.Dobot.animate(J_Pos);
 % Hints: get(hObject,'Value') returns position of slider
@@ -133,10 +136,8 @@ function Joint3_Slider_Callback(hObject, eventdata, handles)
 % hObject    handle to Joint3_Slider (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-S3_Pos = get(hObject, 'Value')
-S3_Pos_Max = get(hObject, 'Max')
-S3_Pos_Min = get(hObject, 'Min') 
-J_Pos = handles.Dobot.getpos
+S3_Pos = get(hObject, 'Value');
+J_Pos = handles.Dobot.getpos;
 J_Pos(3) = S3_Pos;
 handles.Dobot.animate(J_Pos);
 % Hints: get(hObject,'Value') returns position of slider
@@ -160,10 +161,8 @@ function Joint4_Slider_Callback(hObject, eventdata, handles)
 % hObject    handle to Joint4_Slider (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-S4_Pos = get(hObject, 'Value')
-S4_Pos_Max = get(hObject, 'Max')
-S4_Pos_Min = get(hObject, 'Min') 
-J_Pos = handles.Dobot.getpos
+S4_Pos = get(hObject, 'Value');
+J_Pos = handles.Dobot.getpos;
 J_Pos(4) = S4_Pos;
 handles.Dobot.animate(J_Pos);
 % Hints: get(hObject,'Value') returns position of slider
@@ -180,3 +179,19 @@ function Joint4_Slider_CreateFcn(hObject, eventdata, handles)
 if isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor',[.9 .9 .9]);
 end
+
+
+% --- Executes on button press in pushbutton1.
+function pushbutton1_Callback(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+
+eStopEvent(handles.eStop);
+
+
+% --- Executes during object creation, after setting all properties.
+function pushbutton1_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to pushbutton1 (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
