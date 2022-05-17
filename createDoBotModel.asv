@@ -37,11 +37,7 @@ function DoBot = createDoBotModel(workspace, scale)
     PlaceObject('red_ink.ply',[0.2,-0.2,0.58]);
     PlaceObject('green_ink.ply',[0.1,-0.2,0.58]);
     PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
-    PlaceObject('e_stop.ply',[0.25,-0.5,0.58]);
-    PlaceObject('light_curtain.ply',[0.32,-0.6,0.58]);
-    PlaceObject('light_curtain.ply',[0.32,0.6,0.58]);
-    PlaceObject('light_curtain.ply',[-0.2,-0.6,0.58]);
-    PlaceObject('light_curtain.ply',[-0.2,0.6,0.58]);
+    PlaceObject('e_stop.ply',[0,-0.2,0.58]);
     PlaceObject('table.ply',[0,0,0]);
     view([-134, 26])
     
