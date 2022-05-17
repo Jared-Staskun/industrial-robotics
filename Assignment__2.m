@@ -186,19 +186,7 @@ function pushbutton1_Callback(hObject, eventdata, handles)
 % hObject    handle to pushbutton1 (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-if get(hObject, 'Value') == 1
-    while(v == 1)
-    set(handles.Red_PushButton, 'Enable', 'off')
-    set(handles.Blue_PushButton, 'Enable', 'off')
-    set(handles.Green_PushButton, 'Enable', 'off')
-        if get(hObject, 'Value') == 1
-        v = 0;
-        end
-    end
-    set(handles.Red_PushButton, 'Enable', 'on')
-    set(handles.Blue_PushButton, 'Enable', 'on')
-    set(handles.Green_PushButton, 'Enable', 'on')
-end
+
 
 
 
