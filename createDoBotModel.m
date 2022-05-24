@@ -29,26 +29,31 @@ function [DoBot,inks] = createDoBotModel(workspace, scale)
     camlight
     DoBotModel.delay = 0;
     
+    % Inital location of red ink cartridges [x,y,z]
     RedInkLocation = [0.2, -0.2, 0.58; 
                       0.2, -0.3, 0.58;
                       0.2, -0.4, 0.58;];
 
-    red_ink = PlaceObject('red_ink.ply',[RedInkLocation(1,:)]);
-    PlaceObject('red_ink.ply',[RedInkLocation(2,:)]);
-    PlaceObject('red_ink.ply',[RedInkLocation(3,:)]);
-
+    % Inital location of green ink cartridges [x,y,z]
     GreenInkLocation = [0.1, -0.2, 0.58; 
                       0.1, -0.3, 0.58;
                       0.1, -0.4, 0.58;];
 
+    % Ink cartridge that can be moved by DoBot
+    red_ink = PlaceObject('red_ink.ply',[RedInkLocation(1,:)]);
     green_ink = PlaceObject('green_ink.ply',[GreenInkLocation(1,:)]);
+    blue_ink = PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
+    
+    % Matrix of moveable ink cartridges to be outputted from function
+    inks = {red_ink, green_ink, blue_ink};
+    
+    % Prop ink cartridges (not moveable)
+    PlaceObject('red_ink.ply',[RedInkLocation(2,:)]);
+    PlaceObject('red_ink.ply',[RedInkLocation(3,:)]);
     PlaceObject('green_ink.ply',[GreenInkLocation(2,:)]);
     PlaceObject('green_ink.ply',[GreenInkLocation(3,:)]);
 
-    blue_ink = PlaceObject('blue_ink.ply',[0,-0.2,0.58]);
-    
-    inks = {red_ink, green_ink, blue_ink};
-
+    % Environmental objects
     PlaceObject('printer.ply',[0.1,0.3,0.58]);
     PlaceObject('e_stop.ply',[0.25,-0.5,0.58]);
     PlaceObject('light_curtain.ply',[0.32,-0.6,0.58]);

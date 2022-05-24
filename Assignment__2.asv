@@ -59,6 +59,7 @@ function Assignment__2_OpeningFcn(hObject, eventdata, handles, varargin)
 handles.eStop = eStopButton; % Create an object of the eStopButton class
 eStopListener = addlistener(handles.eStop,'eStop',@eStopFunction);
 
+% DoBot Status
 set(handles.text3, 'string', "DoBot Ready.")
 
 % Choose default command line output for Assignment__2
@@ -188,6 +189,7 @@ function E_stop_toggle_Callback(hObject, eventdata, handles)
 % hObject    handle to E_stop_toggle (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+
 if get(hObject, 'Value') == 1
     % Set value of resume button to 1 and disable button
     set(handles.resume_button, 'Value', 1);
@@ -268,7 +270,6 @@ function Red_PushButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading red ink cartridge...")
     set(handles.Red_PushButton, 'Enable', 'off');
@@ -296,6 +297,7 @@ function Blue_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading blue ink cartridge...")
+    set(handles.Blue_PushButton, 'Enable', 'off');
     
     newQ = [-1.5551, -0.024966, 0.40609, -0.2]; % Pose to pick up red block
     Q = handles.Dobot.getpos; % Initial pose
@@ -318,6 +320,7 @@ function Green_PushButton_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 if get(hObject, 'Value') == 1
     set(handles.text3, 'string', "Loading green ink cartridge...")
+    set(handles.Green_PushButton, 'Enable', 'off');
     
     newQ = [-1.0839, -0.090786, 0.24892, -0.18]; % Pose to pick up red block
     Q = handles.Dobot.getpos; % Initial pose
