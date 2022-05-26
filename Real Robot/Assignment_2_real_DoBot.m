@@ -1,35 +1,35 @@
-function varargout = Assignment__2(varargin)
-% ASSIGNMENT__2 MATLAB code for Assignment__2.fig
-%      ASSIGNMENT__2, by itself, creates a new ASSIGNMENT__2 or raises the existing
+function varargout = Assignment_2_real_DoBot(varargin)
+% Assignment_2_real_DoBot MATLAB code for Assignment_2_real_DoBot.fig
+%      Assignment_2_real_DoBot, by itself, creates a new Assignment_2_real_DoBot or raises the existing
 %      singleton*.
 %
-%      H = ASSIGNMENT__2 returns the handle to a new ASSIGNMENT__2 or the handle to
+%      H = Assignment_2_real_DoBot returns the handle to a new Assignment_2_real_DoBot or the handle to
 %      the existing singleton*.
 %
-%      ASSIGNMENT__2('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in ASSIGNMENT__2.M with the given input arguments.
+%      Assignment_2_real_DoBot('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in Assignment_2_real_DoBot.M with the given input arguments.
 %
-%      ASSIGNMENT__2('Property','Value',...) creates a new ASSIGNMENT__2 or raises the
+%      Assignment_2_real_DoBot('Property','Value',...) creates a new Assignment_2_real_DoBot or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before Assignment__2_OpeningFcn gets called.  An
+%      applied to the GUI before Assignment_2_real_DoBot_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to Assignment__2_OpeningFcn via varargin.
+%      stop.  All inputs are passed to Assignment_2_real_DoBot_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help Assignment__2
+% Edit the above text to modify the response to help Assignment_2_real_DoBot
 
-% Last Modified by GUIDE v2.5 18-May-2022 08:57:43
+% Last Modified by GUIDE v2.5 26-May-2022 15:51:54
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @Assignment__2_OpeningFcn, ...
-                   'gui_OutputFcn',  @Assignment__2_OutputFcn, ...
+                   'gui_OpeningFcn', @Assignment_2_real_DoBot_OpeningFcn, ...
+                   'gui_OutputFcn',  @Assignment_2_real_DoBot_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -44,13 +44,13 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before Assignment__2 is made visible.
-function Assignment__2_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before Assignment_2_real_DoBot is made visible.
+function Assignment_2_real_DoBot_OpeningFcn(hObject, eventdata, handles, varargin)
 % This function has no output args, see OutputFcn.
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to Assignment__2 (see VARARGIN)
+% varargin   command line arguments to Assignment_2_real_DoBot (see VARARGIN)
 
 % Create DoBot and environment
 [handles.Dobot, handles.inks] = createDoBotModel([-1 1 -1 1 0 1],0.4);
@@ -62,18 +62,18 @@ eStopListener = addlistener(handles.eStop,'eStop',@eStopFunction);
 % DoBot Status
 set(handles.text3, 'string', "DoBot Ready.")
 
-% Choose default command line output for Assignment__2
+% Choose default command line output for Assignment_2_real_DoBot
 handles.output = hObject;
 
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes Assignment__2 wait for user response (see UIRESUME)
+% UIWAIT makes Assignment_2_real_DoBot wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = Assignment__2_OutputFcn(hObject, eventdata, handles) 
+function varargout = Assignment_2_real_DoBot_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -278,6 +278,28 @@ if get(hObject, 'Value') == 1
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
+    dobot_q = [0.1569, -0.2430, 0.0473]; % move above ink
+    Move_End_Effector(dobot_q);
+    
+    pause(2)
+    
+    dobot_q = [0.1569, -0.2430, -0.0117]; % Move to ink and pick up
+    Move_End_Effector(dobot_q);
+    tool_state(1);
+    
+    pause(2)
+    
+    default_pos = [0.2589,0,0.0482]; % move to mid
+    Move_End_Effector(default_pos);
+    
+    pause(2)
+    
+    dobot_q = [0.0063, 0.2668, 0.1150]; % move to drop off point
+    Move_End_Effector(dobot_q);
+    
+    pause(5)
+    tool_state(0); % release
+    
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
     MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{1}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
@@ -304,6 +326,28 @@ if get(hObject, 'Value') == 1
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
+    dobot_q = [-0.0030, -0.2491, 0.0473]; % move above ink
+    Move_End_Effector(dobot_q);
+    
+    pause(2)
+    
+    dobot_q = [-0.0030, -0.2491, -0.0113]; % Move to ink and pick up
+    Move_End_Effector(dobot_q);
+    tool_state(1);
+    
+    pause(2)
+    
+    default_pos = [0.2589,0,0.0482]; % move to mid
+    Move_End_Effector(default_pos);
+    
+    pause(2)
+    
+    dobot_q = [0.0063, 0.2668, 0.1150]; % move to drop off point
+    Move_End_Effector(dobot_q);
+    
+    pause(8)
+    tool_state(0); % release
+    
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
     MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{3}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
@@ -328,6 +372,28 @@ if get(hObject, 'Value') == 1
     Q = handles.Dobot.getpos; % Initial pose
     handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
     
+    dobot_q = [0.0731, -0.2496, 0.0473]; % move above ink
+    Move_End_Effector(dobot_q);
+    
+    pause(2)
+    
+    dobot_q = [0.0731, -0.2496, -0.0134]; % Move to ink and pick up
+    Move_End_Effector(dobot_q);
+    tool_state(1);
+    
+    pause(2)
+    
+    default_pos = [0.2589,0,0.0482]; % move to mid
+    Move_End_Effector(default_pos);
+    
+    pause(2)
+    
+    dobot_q = [0.0063, 0.2668, 0.1150]; % move to drop off point
+    Move_End_Effector(dobot_q);
+    
+    pause(5)
+    tool_state(0); % release
+    
     printerHighQ = [1.5551, -0.36314, -0.40678, 0.72];
     MoveJointWithInk(handles.Dobot,newQ, printerHighQ,handles.inks{2}); % Move to above printer
     printerQ = [1.5551, 0.18157, -0.35131, 0.16];
@@ -350,6 +416,7 @@ function Start_PushButton_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
+if get(hObject, 'Value') == 1
     % Initialise Dobot -------------------------------------
     rosshutdown
     rosinit;
@@ -364,7 +431,7 @@ function Start_PushButton_Callback(hObject, eventdata, handles)
     [targetEndEffectorPub,targetEndEffectorMsg] = rospublisher('/dobot_magician/target_end_effector_pose');
     endEffectorPoseSubscriber = rossubscriber('/dobot_magician/end_effector_poses');
 
-    default_pos = [0.2589,0,-0.0085];
+    default_pos = [0.2589,0,0.0482];
     ground_level = -0.0589;
 
     currentSafetyStatus = 0;
@@ -377,12 +444,8 @@ function Start_PushButton_Callback(hObject, eventdata, handles)
 
     fprintf('Safety Loop Done.\n');
 
-    %Move dobot out of the way
-    out_of_way = [0.0053, -0.2205, 0.0324];
-    Move_End_Effector(out_of_way)
-    pause(3)
-
     % End initialisation --------------------------------
+end
 
 
 % --- Executes on button press in get_pose_button.
@@ -392,7 +455,8 @@ function get_pose_button_Callback(hObject, eventdata, handles)
 % handles    structure with handles and user data (see GUIDATA)
 
 if get(hObject, 'Value') == 1
-    coordinates = handles.Dobot.getpos;
+    coordinates = handles.Dobot.fkine(handles.Dobot.getpos);
+    coordinates = coordinates(1:3,4);
     set(handles.text3, 'string', num2str(coordinates))
 end
 
@@ -410,8 +474,13 @@ function return_home_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 
-Q = handles.Dobot.getpos; % Initial pose
-newQ = [0,0,0,0]; % Home pose
-handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
+    Q = handles.Dobot.getpos; % Initial pose
+    newQ = [0,0,0,0]; % Home pose
+    handles.Dobot.plot3d(MoveJoint(Q, newQ)); % Move to block
 
-set(handles.text3, 'string', "DoBot Ready.")
+    default_pos = [0.2589,0,0.0482]; % move to mid
+    Move_End_Effector(default_pos);
+
+    pause(2)
+
+    set(handles.text3, 'string', "DoBot Ready.")
